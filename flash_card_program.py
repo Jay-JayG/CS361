@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 
 home_screen = [
-    [sg.Text("Select a Deck to begin Reviewing Cards",
+    [sg.Text("Click on a Deck to begin Reviewing Cards",
              justification='center')],
     [sg.Text("Deck 1: 14 Cards", justification='center', enable_events=True, key='deck1')],
     [sg.Text("Deck 2: 15 Cards", justification='center', enable_events=True, key='deck2')],
@@ -16,7 +16,9 @@ def review_window():
         [sg.Button("Return To Deck"), sg.Button("Edit Card")],
         [sg.Text("Flash Card 1 Front Text")],
         [sg.Text("Flash Card Back Tex")],
-        [sg.Button("Reveal Back")]
+        [sg.Button("Reveal Back")],
+        [sg.Text("Rate remembering difficulty")],
+        [sg.Button("Easy 1"), sg.Button("Normal 2"), sg.Button("Hard 3"), sg.Button("Forgot 4")]
 
     ]
     review_window = sg.Window(title="Review", layout=review, modal=True)
@@ -25,6 +27,8 @@ def review_window():
         event, values = review_window.read()
         if event == sg.WIN_CLOSED:
             break
+        elif event == "Return To Deck":
+            review_window.close()
 
 def create_card_window():
     create_card = [
@@ -40,7 +44,7 @@ def create_card_window():
         if event == sg.WIN_CLOSED:
             break
         elif event == "Cancel":
-            break
+            create_card_window.close()
 
 def deck_window():
     deck = [
@@ -64,6 +68,28 @@ def deck_window():
             create_card_window()
         elif event == "View Cards":
             sg.popup_scrolled("Created Flash Cards Go Here\nCreated Flash Cards Go Here \n", title="scrolled popup")
+        elif event == "Cancel":
+            deck_window.close()
+
+def view_cards_window():
+    layout1= [
+        [sg.Text("Card 1")],
+        [sg.Text("Card 2")]
+    ]
+    view_cards = [
+        [sg.Column(layout1, size=(400, 200), scrollable=True, key = "Column")],
+        [sg.Button("View"), sg.Button("Delete"), sg.Button("Cancel")]
+    ]
+    view_cards_window = sg.Window(title="View Cards", layout=view_cards)
+
+    while True:
+        event, values = view_cards_window.read()
+        if event == sg.WIN_CLOSED:
+            break
+        elif event == "Delete":
+            sg.popup_yes_no("Do you want to delete this card?", title="Delete Card?")
+        elif event == "Cancel":
+            view_cards_window.close()
 
 
 window = sg.Window(title="hello", layout=home_screen)
@@ -80,7 +106,7 @@ while True:
     elif event == "Create Card":
         create_card_window()
     elif event == "View All Cards":
-        sg.popup_scrolled("Created Flash Cards Go Here\nCreated Flash Cards Go Here \n", title="scrolled popup")
+        view_cards_window()
 
 
 window.close()
