@@ -34,3 +34,5 @@ def read_file(file_name):
     with open(file_name, 'r') as file:
         contents = file.read()
     return contents
+    
+![Text Replacement Program](https://user-images.githubusercontent.com/105891722/236944231-69f4a125-83b2-4837-abd2-8f62629bc36b.png)
