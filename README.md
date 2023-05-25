@@ -1,6 +1,6 @@
 # CS361
 
-1. Instructions on How to Request Data from the Microservice:
+## 1. Instructions on How to REQUEST Data from the Microservice:
 
 The microservice is a python script which can be called with arguments via subprocesws calls or system calls.
 
@@ -24,7 +24,7 @@ result = subprocess.run(["python", program, "example.txt", "True"], capture_outp
 print(result.stdout.strip())
 ```
 
-2. Instructions on How to Request Data from the Microservice:
+## 2. Instructions on How to RECEIVE Data from the Microservice:
 
 The the microservice will require the location of a text file. If the text file is in the same directory as the script, the script can find the file with just the file name.
 The microservice can also optionally call another program that allows the user to edit a text file and save it. This option is optional and not required to call the microservice.
