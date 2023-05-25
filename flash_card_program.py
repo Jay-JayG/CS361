@@ -1,4 +1,13 @@
 import PySimpleGUI as sg
+import os
+import subprocess
+cwd = os.getcwd()
+folder_location = cwd
+files = os.listdir(folder_location)
+file_names = [
+    file for file in files
+    if os.path.isfile(os.path.join(folder_location, file)) and file.lower().endswith((".txt", ".py", ".cpp"))
+]
 
 home_screen = [
     [sg.Text("Click on a Deck to begin Reviewing Cards",
@@ -72,20 +81,45 @@ def deck_window():
             deck_window.close()
 
 def view_cards_window():
-    layout1= [
-        [sg.Text("Card 1")],
-        [sg.Text("Card 2")]
+    file_list_column = [
+        [
+            sg.Listbox(
+                values=[],
+                enable_events=True,
+                size=(50, 20),
+                key="-FILE_LIST-"
+            )
+        ]
     ]
+
     view_cards = [
-        [sg.Column(layout1, size=(400, 200), scrollable=True, key = "Column")],
+        [
+        [sg.Text("Search cards for text"), sg.InputText()],
+        [sg.Submit("Submit")],
+        [sg.Column(file_list_column)],
         [sg.Button("View"), sg.Button("Delete"), sg.Button("Cancel")]
+        ]
     ]
-    view_cards_window = sg.Window(title="View Cards", layout=view_cards)
+
+    view_cards_window = sg.Window(title="View Cards", layout=view_cards, finalize=True)
+    view_cards_window["-FILE_LIST-"].update(file_names)
+
 
     while True:
         event, values = view_cards_window.read()
         if event == sg.WIN_CLOSED:
             break
+        elif event == "Submit":
+            files_containing_text = []
+            script_path = 'C:/Users/Joel/Documents/2023_spring/cs361/CS361/file_text_search.py'
+            print("ghello")
+            file_name = "card1.txt"
+            search_term = "text"
+            command = ['python', script_path, file_name, search_term]
+            result = subprocess.run(command, capture_output=True, text=True)
+            output = result.stdout.strip()
+            print(output)
+            print("files")
         elif event == "Delete":
             sg.popup_yes_no("Do you want to delete this card?", title="Delete Card?")
         elif event == "Cancel":
