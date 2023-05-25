@@ -54,3 +54,4 @@ program = cwd + "/text_microservice.py"
 result = subprocess.run(["python", program, "example.txt"], capture_output=True, text=True)
 #Code that manipulates text stored in result
 ```
+![Text Replacement Program](https://github.com/Jay-JayG/CS361/assets/105891722/4d420c33-ad72-4fe3-a5ae-fe6d64cd088d)
