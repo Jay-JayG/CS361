@@ -2,11 +2,11 @@ import PySimpleGUI as sg
 import os
 import subprocess
 cwd = os.getcwd()
-folder_location = cwd
+folder_location = cwd + "/all_flash_cards"
 files = os.listdir(folder_location)
 file_names = [
     file for file in files
-    if os.path.isfile(os.path.join(folder_location, file)) and file.lower().endswith((".txt", ".py", ".cpp"))
+    if os.path.isfile(os.path.join(folder_location, file)) and file.lower().endswith((".txt"))
 ]
 
 home_screen = [
@@ -111,15 +111,14 @@ def view_cards_window():
             break
         elif event == "Submit":
             files_containing_text = []
-            script_path = 'C:/Users/Joel/Documents/2023_spring/cs361/CS361/file_text_search.py'
-            print("ghello")
-            file_name = "card1.txt"
-            search_term = "text"
-            command = ['python', script_path, file_name, search_term]
-            result = subprocess.run(command, capture_output=True, text=True)
-            output = result.stdout.strip()
-            print(output)
-            print("files")
+            script_path = 'C:/Users/Joel/Documents/2023_spring/cs361/CS361/flashcard_program/all_flash_cards/file_text_search.py'
+            search_term = values[0]
+            for file in file_names:
+                file_name = file
+                result = subprocess.check_output(['python', script_path, 'C:/Users/Joel/Documents/2023_spring/cs361/CS361/flashcard_program/all_flash_cards/' + file_name, search_term], universal_newlines=True)
+                if result == "Result(s) found!":
+                    files_containing_text.append(file_name)
+            view_cards_window["-FILE_LIST-"].update(files_containing_text)
         elif event == "Delete":
             sg.popup_yes_no("Do you want to delete this card?", title="Delete Card?")
         elif event == "Cancel":
